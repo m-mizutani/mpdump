@@ -1,4 +1,6 @@
-(function() {
+// eslint-disable
+
+(function () {
   const url = `ws://${location.host}/`;
   console.log(url);
 
@@ -10,20 +12,20 @@
   });
 
   function openSocket() {
-    const ws = new WebSocket(url,['echo-protocol','soap', 'xmpp']);
+    const ws = new WebSocket(url, ['echo-protocol', 'soap', 'xmpp']);
 
-    ws.onopen = function() {
-      console.log((new Date).toISOString(), 'connected');
+    ws.onopen = function () {
+      console.log((new Date()).toISOString(), 'connected');
     };
 
-    ws.onclose = function() {
-      console.log((new Date).toISOString(), 'reconnecting...');
+    ws.onclose = function () {
+      console.log((new Date()).toISOString(), 'reconnecting...');
       setTimeout(openSocket, 3000);
     };
 
     // Log errors
     ws.onerror = function (error) {
-      console.log('WebSocket Error ' + error);
+      console.log(`WebSocket Error ${error}`);
     };
 
     // Log messages from the server
@@ -40,5 +42,4 @@
   }
 
   openSocket();
-
-})();
+}());
