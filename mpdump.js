@@ -1,7 +1,8 @@
 const http = require('http');
 const net = require('net');
 const app = require('./app');
-const msgpack = require('msgpack');
+// const msgpack = require('msgpack');
+const msgpack = require('msgpack-lite');
 const WebSocketServer = require('websocket').server;
 
 class MPDump {
@@ -33,16 +34,39 @@ class MPDump {
 
   createMsgpackServer(port) {
     const self = this;
-    self._msgServer = net.createServer((conn) => {
-      const ms = new msgpack.Stream(conn);
-      ms.addListener('msg', (msg) => {
-        console.log(msg);
-
-        self._wsList.forEach((ws) => {
-          ws.sendUTF(JSON.stringify(msg));
+    try {
+      self._msgServer = net.createServer((conn) => {
+        conn.pipe(msgpack.createDecodeStream()).on('data', (msg) => {
+          const obj = {
+            ts: (new Date()).getTime() / 1000,
+            addr: conn.remoteAddress,
+            port: conn.remotePort,
+            content: JSON.stringify(msg, null, 2),
+          };
+          self._wsList.forEach((ws) => {
+            ws.sendUTF(JSON.stringify(obj));
+          });
         });
-      });
-    }).listen(port);
+/*
+        const ms = new msgpack.Stream(conn);
+        ms.addListener('msg', (msg) => {
+        // console.log(msg);
+
+          const obj = {
+            ts: (new Date()).getTime() / 1000,
+            addr: conn.remoteAddress,
+            port: conn.remotePort,
+            content: JSON.stringify(msg, null, 2),
+          };
+          self._wsList.forEach((ws) => {
+            ws.sendUTF(JSON.stringify(obj));
+          });
+        });
+*/
+      }).listen(port);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 }

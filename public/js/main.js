@@ -1,11 +1,11 @@
-// eslint-disable
+// eslint-disable func-names
 
 (function () {
   const url = `ws://${location.host}/`;
   console.log(url);
 
   const app = new Vue({
-    el: '#event-feed',
+    el: '#msg-feed',
     data: {
       events: [],
     },
@@ -30,11 +30,10 @@
 
     // Log messages from the server
     ws.onmessage = function (e) {
-      const ev = JSON.parse(e.data);
-      const obj = Object.assign({ tag: ev[0], timestamp: ev[1] }, ev[2]);
-      console.log(obj);
+      const msg = JSON.parse(e.data);
+      console.log(msg);
 
-      app.events.unshift(obj);
+      app.events.unshift(msg);
       while (app.events.length > 50) {
         app.events.pop();
       }

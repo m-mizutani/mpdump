@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>mpdump</title>
+    <title>mpdump: MessagePack Dumper</title>
     <link rel='stylesheet' href='/css/style.css' />
     <script src="/js/vue.min.js" charset="utf-8"></script>
-    <script src="/js/main.js" charset="utf-8"></script>
   </head>
   <body>
-    <h1>MessagePack Dump</h1>
-    <div class="feed">
-
+    <h1>MessagePack Dumper</h1>
+    <div id="msg-feed">
+      <transition-group name="expand" tag="div">
+        <div v-for="msg in events" v-bind:key="msg" class="expand-item">
+          <div>From: [{{ msg.addr }}]:{{ msg.port }}</div>
+          <pre>{{ msg.content }}<pre>
+        </div>
+      </transition-group>
     </div>
   </body>
+  <script src="/js/main.js" charset="utf-8"></script>
 </html>
