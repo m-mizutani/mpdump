@@ -1,9 +1,15 @@
 // eslint-disable func-names
-
+console.log(location);
 (function () {
   const url = `ws://${location.host}/`;
   console.log(url);
 
+  const header = new Vue({
+    el: '#header',
+    data: {
+      hostname: location.hostname,
+    },
+  });
   const app = new Vue({
     el: '#msg-feed',
     data: {
@@ -31,6 +37,9 @@
     // Log messages from the server
     ws.onmessage = function (e) {
       const msg = JSON.parse(e.data);
+      const dt = new Date();
+      dt.setTime(msg.ts * 1000);
+      msg.datetime = dt.toLocaleString();
       console.log(msg);
 
       app.events.unshift(msg);

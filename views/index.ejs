@@ -1,20 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>mpdump: MessagePack Dumper</title>
+    <title>msgdump: MessagePack Dumper</title>
     <link rel='stylesheet' href='/css/style.css' />
     <script src="/js/vue.min.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>MessagePack Dumper</h1>
-    <div id="msg-feed">
-      <transition-group name="expand" tag="div">
-        <div v-for="msg in events" v-bind:key="msg" class="expand-item">
-          <div>From: [{{ msg.addr }}]:{{ msg.port }}</div>
-          <pre>{{ msg.content }}<pre>
-        </div>
-      </transition-group>
+
+    <div class="section">
+      <h2>What's this?</h2>
+      <div id="header">
+        <p>Receive MessagePack serialized data by TCP stream on
+          <span class="pre">{{ hostname }}:24224</span>, then display it.
+          If you have <span class="pre">fluent-cat</span>, try following</p>
+        <div class="pre">$ echo '{"mykey": "myvalue"}' | fluent-cat --host {{ hostname }} mytest.tag</div>
+        <p>NOTE: This site has no authentication and authorization, then all received message is exposed.</p>
+      </div>
     </div>
+
+    <div class="section">
+      <div id="msg-feed">
+        <h2>Dump feed</h2>
+        <transition-group name="expand" tag="div">
+          <div v-for="msg in events" v-bind:key="msg" class="expand-item">
+            <div class="msg-header">
+              <div class="msg-datetime">
+                {{ msg.datetime }}
+              </div>
+              <div class="msg-from">
+                [{{ msg.addr }}]:{{ msg.port }}
+              </div>
+            </div>
+            <div class="msg-content">
+              <pre>{{ msg.content | json 4 }}</pre>
+            </div>
+          </div>
+        </transition-group>
+      </div>
+    </div>
+
   </body>
   <script src="/js/main.js" charset="utf-8"></script>
 </html>

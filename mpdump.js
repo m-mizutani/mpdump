@@ -41,28 +41,12 @@ class MPDump {
             ts: (new Date()).getTime() / 1000,
             addr: conn.remoteAddress,
             port: conn.remotePort,
-            content: JSON.stringify(msg, null, 2),
+            content: msg,
           };
           self._wsList.forEach((ws) => {
             ws.sendUTF(JSON.stringify(obj));
           });
         });
-/*
-        const ms = new msgpack.Stream(conn);
-        ms.addListener('msg', (msg) => {
-        // console.log(msg);
-
-          const obj = {
-            ts: (new Date()).getTime() / 1000,
-            addr: conn.remoteAddress,
-            port: conn.remotePort,
-            content: JSON.stringify(msg, null, 2),
-          };
-          self._wsList.forEach((ws) => {
-            ws.sendUTF(JSON.stringify(obj));
-          });
-        });
-*/
       }).listen(port);
     } catch (e) {
       console.log(e);
