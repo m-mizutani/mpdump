@@ -4,7 +4,7 @@ console.log(location);
   const url = `ws://${location.host}/`;
   console.log(url);
 
-  const header = new Vue({
+  const header = new Vue({ // eslint-disable-line no-unused-vars
     el: '#header',
     data: {
       hostname: location.hostname,
@@ -40,7 +40,7 @@ console.log(location);
       const dt = new Date();
       dt.setTime(msg.ts * 1000);
       msg.datetime = dt.toLocaleString();
-      console.log(msg);
+      // console.log(msg);
 
       app.events.unshift(msg);
       while (app.events.length > 50) {

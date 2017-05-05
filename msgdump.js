@@ -5,7 +5,7 @@ const app = require('./app');
 const msgpack = require('msgpack-lite');
 const WebSocketServer = require('websocket').server;
 
-class MPDump {
+class MsgDump {
   constructor() {
     const self = this;
     self._app = app;
@@ -55,4 +55,4 @@ class MPDump {
 
 }
 
-module.exports = MPDump;
+module.exports = new MsgDump();

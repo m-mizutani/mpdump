@@ -1,6 +1,6 @@
 {
-  "name": "mpdump",
-  "version": "0.0.1",
+  "name": "msgdump",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

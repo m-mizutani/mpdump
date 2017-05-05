@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 
-const mpdump = new (require('../mpdump'))();
-const debug = require('debug')('mpdump:server');
+const msgdump = require('../msgdump');
+const debug = require('debug')('msgdump:server');
 
 
 /**
@@ -63,7 +63,7 @@ function onError(error) {
  */
 
 function onListening() {
-  const addr = server.address();
+  const addr = server.address(); // eslint-disable-line no-use-before-define
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
@@ -71,8 +71,8 @@ function onListening() {
 }
 
 
-mpdump.createMsgpackServer(msgPort);
-const server = mpdump.createHTTPServer(httpPort);
+msgdump.createMsgpackServer(msgPort);
+const server = msgdump.createHTTPServer(httpPort);
 
 server.on('error', onError);
 server.on('listening', onListening);
